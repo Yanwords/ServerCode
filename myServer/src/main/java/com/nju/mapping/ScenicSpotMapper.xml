@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nju.dao.IScenicSpotDao" ><!--（注意修改）  -->
+  <resultMap id="BaseResultMap" type="com.nju.beans.ScenicSpot" ><!-- （注意修改） -->
+    <id column="scenic_id" property="scenicId" jdbcType="INTEGER" />
+    <result column="scenic_name" property="scenicName" jdbcType="VARCHAR" />
+    <result column="scenic_info" property="scenicInfo" jdbcType="VARCHAR" />
+    <result column="scenic_score" property="scenicScore" jdbcType="FLOAT"/>
+  </resultMap>
+  
+  <resultMap id="scenicEvalRS" type="com.nju.beans.ScenicEvaluation">  <!-- （注意修改） -->
+    <id column="eval_id" property="evalId"/>
+    <result column="user_id" property="userId"/>
+    <result column="scenic_id" property="scenicId"/>
+    <result column="eval_content" property="evalContent"/>
+    <result column="eval_date" property="evalDate"/>
+  </resultMap>
+  
+  <resultMap id="travelRecordRS" type="com.nju.beans.TravelRecord">  <!-- （注意修改） -->
+    <id column="travel_id" property="travelId"/>
+    <result column="travel_content" property="travelContent"/>
+    <result column="travel_date" property="travelDate"/>
+    <result column="user_id" property="userId"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    scenic_id, scenic_name, scenic_info, scenic_score
+  </sql>
+  <sql id="Higher_Column_List">
+    s.scenic_id, s.scenic_name, s.scenic_info, scenic_score
+  </sql>
+  <sql id="BaseEvaluation_Column_List" >
+    eval_id, user_id, scenic_id, eval_content, eval_date
+  </sql>
+  <sql id="HigherEvaluation_Column_List">
+    se.eval_id, se.user_id, se.scenic_id, se.eval_content, se.eval_date
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Higher_Column_List" />
+    from scenic_spot as s
+    where s.scenic_id = #{id,jdbcType=INTEGER};
+  </select>
+   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Higher_Column_List" />
+    from scenic_spot as s
+    where s.scenic_name = #{scenicName,jdbcType=VARCHAR};
+  </select>
+  <select id="display" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from scenic_spot
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from scenic_spot
+    where scenic_id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteCustomer" parameterType="java.lang.Integer" >
+    delete from customer
+    where c_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nju.beans.ScenicSpot" ><!-- （注意修改） -->
+    insert into scenic_spot (scenic_name, scenic_info, scenic_score)
+    values (#{scenicName,jdbcType=VARCHAR}, #{scenicInfo,jdbcType=VARCHAR},
+      #{scenicScore, jdbcType=FLOAT})
+  </insert>
+  <insert id="insertScenicEvaluation" parameterType="com.nju.beans.ScenicEvaluation" ><!-- （注意修改） -->
+    insert into scenic_evaluation (user_id, scenic_id, eval_content, eval_date)
+    values (#{userId}, #{scenicId}, #{evalContent}, #{evalDate})
+  </insert>
+  <!-- （注意修改） -->
+  <!--  
+    <insert id="insertCustomer" parameterType="com.nju.beans.Customer" >
+    insert into customer (c_id, c_name, u_id, 
+      c_status)
+    values (#{id,jdbcType=INTEGER}, #{customerName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{customerStatus,jdbcType=VARCHAR})
+  </insert>
+  -->
+  <insert id="insertSelective" parameterType="com.nju.beans.ScenicSpot" ><!-- （注意修改） -->
+    insert into scenic_spot
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scenicName != null" >
+        scenic_name,
+      </if>
+      <if test="scenicInfo != null" >
+        scenic_info,
+      </if>
+      <if test="scenic_score != null" >
+        scenic_score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scenicName != null" >
+        #{scenicName,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicInfo != null" >
+        #{scenicInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicScore != null" >
+        #{scenicScore,jdbcType=FLOAT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nju.beans.ScenicSpot" ><!-- （注意修改） -->
+    update scenic_spot
+    <set >
+      <if test="scenicName != null" >
+        scenic_name = #{scenicName,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicInfo != null" >
+        scenic_info = #{scenicInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicScore != null" >
+        scenicScore = #{scenicScore,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nju.beans.ScenicSpot" ><!-- （注意修改） -->
+    update scenic_spot
+    set   scenic_name = #{scenicName,jdbcType=VARCHAR},
+      scenic_info = #{scenicInfo,jdbcType=VARCHAR},
+      scenic_score = #{scenicScore,jdbcType=FLOAT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- （注意修改） -->
+  <!--  
+    <update id="updateCustomer" parameterType="com.nju.beans.Customer" >
+    update customer
+    set   c_name = #{customerName,jdbcType=VARCHAR},
+      u_id = #{userId,jdbcType=INTEGER},
+      c_status = #{customerStatus,jdbcType=VARCHAR}
+    where c_id = #{id,jdbcType=INTEGER}
+  </update>
+  -->
+</mapper>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nju.dao.IUserDao" ><!--（注意修改）  -->
+  <resultMap id="BaseResultMap" type="com.nju.beans.User" ><!-- （注意修改） -->
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="p_id" property="pId" jdbcType="INTEGER"/>
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <association property="permission" javaType="com.nju.beans.Permission" resultMap="permissionRS">
+    
+    </association>
+  
+  </resultMap>
+  <resultMap id="permissionRS" type="com.nju.beans.Permission"> <!-- （注意修改） -->
+    <id column="p_id" property="pId"/>
+    <result column="p_name" property="pName"/>
+  </resultMap>
+  
+  <resultMap id="friendRS" type="com.nju.beans.Friend"> <!-- （注意修改） -->
+    <id column="user_id" property="userId"/>
+    <result column="friend_id" property="friendId"/>
+  </resultMap>
+
+   <resultMap id="scenicSpotRS" type="com.nju.beans.ScenicSpot">  <!-- （注意修改） -->
+    <id column="scenic_id" property="scenicId"/>
+    <result column="scenic_name" property="scenicName"/>
+    <result column="scenic_info" property="scenicInfo"/>
+    <result column="scenic_score" property="scenicScore"/>
+  </resultMap>
+  
+  <resultMap id="scenicEvalRS" type="com.nju.beans.ScenicEvaluation">  <!-- （注意修改） -->
+    <id column="eval_id" property="evalId"/>
+    <result column="user_id" property="userId"/>
+    <result column="scenic_id" property="scenicId"/>
+    <result column="eval_content" property="evalContent"/>
+    <result column="eval_date" property="evalDate"/>
+  </resultMap>
+  <resultMap id="shareExperRS" type="com.nju.beans.ShareExperience">  <!-- （注意修改） -->
+    <id column="exper_id" property="experId"/>
+    <result column="user_id" property="userId"/>
+    <result column="exper_content" property="experContent"/>
+    <result column="exper_date" property="experDate"/>
+  </resultMap>
+  <resultMap id="travelRecordRS" type="com.nju.beans.TravelRecord">  <!-- （注意修改） -->
+    <id column="travel_id" property="travelId"/>
+    <result column="travel_content" property="travelContent"/>
+    <result column="travel_date" property="travelDate"/>
+    <result column="user_id" property="userId"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    user_id, user_name, password, p_id, gender, age
+  </sql>
+  <sql id="Higher_Column_List">
+    u.user_id, u.user_name, u.password, u.gender, u.age, p.p_id, p.p_name
+  </sql>
+  
+  <sql id="BaseScenic_Column_List" >
+     ss.scenic_id, ss.scenic_name, ss.scenic_info, ss.scenic_score
+  </sql>
+  <sql id="HighScenic_Column_List" >
+       scenic_id, scenic_name, scenic_info, scenic_score
+  </sql>
+  <sql id="BaseTravel_Column_List">
+       travel_id, travel_content, travel_date, user_id
+  </sql>
+  <sql id="HighTravel_Column_List">
+       t.travel_id, t.travel_content, t.travel_date, t.user_id
+  </sql>
+  <sql id="BaseExperience_Column_List">
+       exper_id, user_id, exper_content, exper_date
+  </sql>
+  <sql id="HighExperience_Column_List">
+       se.exper_id, se.user_id, se.exper_content, se.exper_date
+  </sql>
+  <sql id="BaseFriend_Column_List">
+       user_id, friend_id
+  </sql>
+  <sql id="HighFriend_Column_List">
+       f.user_id, f.friend_id
+  </sql>
+  <!--  
+  <select id="selectCustById" resultMap="customerRS" parameterType="java.lang.Integer" >
+    select 
+    <include refid="BaseCust_Column_List" />
+    from customer as c, user_t as u
+    where c.c_id = #{id,jdbcType=INTEGER} and c.u_id = u.id;  
+  </select>
+  <select id="selectCustByName" resultMap="customerRS" parameterType="java.lang.String" >
+    select 
+    <include refid="HighCust_Column_List" />
+    from customer
+    where c_name=#{customerName,jdbcType=VARCHAR};
+  </select>
+  <select id="displayCustomer" resultMap="customerRS" parameterType="java.lang.Integer" >
+    select
+    <include refid="BaseCust_Column_List" />
+    from customer as c
+    where c.u_id=#{id,jdbcType=INTEGER};  
+  </select>
+  -->
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Higher_Column_List" />
+    from user as u,permission as p
+    where u.id = #{id,jdbcType=INTEGER} and u.p_id = p.p_id; 
+  </select>
+   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Higher_Column_List" />
+    from user as u,permission as p
+    where u.user_name = #{userName,jdbcType=VARCHAR} and u.p_id = p.p_id;
+  </select>
+  <select id="display" resultMap="BaseResultMap" >
+    select 
+    <include refid="Higher_Column_List" />
+    from user as u,permission as p
+    where u.p_id = p.p_id;
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteCustomer" parameterType="java.lang.Integer" >
+    delete from customer
+    where c_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nju.beans.User" ><!-- （注意修改） -->
+    insert into user (user_name, password, 
+      p_id, gender, age)
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{pId, jdbcType=INTEGER}, 
+      #{gender, jdbcType=VARCHAR}, #{age,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertTravelRecord" parameterType="com.nju.beans.TravelRecord" ><!-- （注意修改） -->
+    insert into travel_record (travel_content, travel_date, user_id)
+    values (#{travelContent}, #{travelDate}, #{userId})
+  </insert>
+  <insert id="insertShareExperience" parameterType="com.nju.beans.ShareExperience" ><!-- （注意修改） -->
+    insert into share_experience (user_id, exper_content, exper_date)
+    values (#{userId}, #{experContent}, #{experDate})
+  </insert>
+  <insert id="addFriend" parameterType="com.nju.beans.Friend" ><!-- （注意修改） -->
+    insert into friend (user_id, friend_id)
+    values (#{userId}, #{friendId})
+  </insert>
+  <!-- （注意修改） -->
+  <!--  
+    <insert id="insertCustomer" parameterType="com.nju.beans.Customer" >
+    insert into customer (c_id, c_name, u_id, 
+      c_status)
+    values (#{id,jdbcType=INTEGER}, #{customerName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{customerStatus,jdbcType=VARCHAR})
+  </insert>
+  -->
+  <insert id="insertSelective" parameterType="com.nju.beans.User" ><!-- （注意修改） -->
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="pId != null" >
+        pId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="pId != null">
+        #{pId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nju.beans.User" ><!-- （注意修改） -->
+    update user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nju.beans.User" ><!-- （注意修改） -->
+    update user
+    set   user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- （注意修改） -->
+  <!--  
+    <update id="updateCustomer" parameterType="com.nju.beans.Customer" >
+    update customer
+    set   c_name = #{customerName,jdbcType=VARCHAR},
+      u_id = #{userId,jdbcType=INTEGER},
+      c_status = #{customerStatus,jdbcType=VARCHAR}
+    where c_id = #{id,jdbcType=INTEGER}
+  </update>
+  -->
+</mapper>
