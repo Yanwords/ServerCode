@@ -54,7 +54,7 @@
     user_id, user_name, password, p_id, gender, age
   </sql>
   <sql id="Higher_Column_List">
-    u.user_id, u.user_name, u.password, u.gender, u.age, p.p_id, p.p_name
+    u.user_id, u.user_name, u.password, u.gender, u.age, u.p_id
   </sql>
   
   <sql id="BaseScenic_Column_List" >
@@ -104,8 +104,8 @@
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Higher_Column_List" />
-    from user as u,permission as p
-    where u.id = #{id,jdbcType=INTEGER} and u.p_id = p.p_id; 
+    from user as u
+    where u.user_id = #{id,jdbcType=INTEGER};
   </select>
    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
