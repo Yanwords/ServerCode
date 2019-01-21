@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class IUserServiceTest {
 	@Resource
 	@Autowired
-	private UserServiceImpl userService;
+	private IUserService userService;
 	
 	@Test
 	public void testGetUserById() {

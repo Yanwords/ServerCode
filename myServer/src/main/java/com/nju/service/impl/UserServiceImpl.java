@@ -3,19 +3,17 @@ package com.nju.service.impl;
 import java.util.List;
 
 import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.nju.beans.Friend;
 import com.nju.beans.ShareExperience;
 import com.nju.beans.TravelRecord;
 import com.nju.beans.User;
 import com.nju.dao.IUserDao;
 import com.nju.service.IUserService;
-
 @Service("userService")  
 public class UserServiceImpl implements IUserService {  
-    @Resource  
+    @Autowired
     private IUserDao userDao;  
     public User getUserById(int userId) {  
         return this.userDao.selectById(userId);  

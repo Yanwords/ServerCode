@@ -29,7 +29,7 @@ import com.nju.service.IUserService;
 @Controller  
 @RequestMapping("/user")  
 public class UserController {  
-    @Resource  
+    @Resource
     private IUserService userService;  
 //                           customerService
     @RequestMapping("/login.do")
