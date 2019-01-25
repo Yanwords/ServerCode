@@ -29,4 +29,10 @@ public class IUserServiceTest {
 		Assert.assertEquals(user.getUserId().intValue(), userId);
 //		public User getUserById(int userId); 
 	}
+	@Test
+	public void testUserByName() {
+		String userName = "yan";
+		User user = userService.getUserByName(userName);
+		Assert.assertEquals(user.getUserName(), userName);
+	}
 }
