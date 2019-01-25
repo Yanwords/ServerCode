@@ -28,4 +28,11 @@ public class IUserDaoTest {
 		Assert.assertEquals(user.getUserId().intValue(), userId);
 //		public User getUserById(int userId); 
 	}
+	
+	@Test
+	public void testGetUserByName() {
+		String userName = "yan";
+		User user = userDao.selectByName(userName);
+		Assert.assertEquals(user.getUserName(), userName);
+	}
 }
