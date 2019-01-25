@@ -58,4 +58,17 @@ public class IUserServiceTest {
 			Assert.assertEquals(user.getUserName(), temp.getUserName());
 		}
 	}
+	@Test
+	public void testDeleteUser() {
+		int userId = 0;
+		String userName = "test";
+		User user = userService.getUserByName(userName);
+		if (user == null) {
+			Assert.assertEquals(0, userId);
+		}else {
+			userId = user.getUserId();
+			int result = userService.deleteByPrimaryKey(userId);
+			Assert.assertEquals(1, result);
+		}
+	}
 }
