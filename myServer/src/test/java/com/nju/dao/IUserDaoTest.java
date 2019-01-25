@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.nju.beans.Permission;
 import com.nju.beans.User;
 import com.nju.service.impl.UserServiceImpl;
 
@@ -34,5 +35,26 @@ public class IUserDaoTest {
 		String userName = "yan";
 		User user = userDao.selectByName(userName);
 		Assert.assertEquals(user.getUserName(), userName);
+	}
+	
+	@Test
+	public void testInserUser() {
+		User user = new User();
+		Permission permission = new Permission();
+		user.setUserName("test");
+		user.setPassword("test");
+		user.setAge(23);
+		user.setGender("男");
+		user.setpId(1);
+		permission.setpId(1);
+		permission.setpName("USER");
+		user.setPermission(permission);
+	    User temp = userDao.selectByName(user.getUserName());
+		if (temp == null) {
+			int result = userDao.insert(user);
+			Assert.assertEquals(1, result);
+		}else {
+			Assert.assertEquals(user.getUserName(), temp.getUserName());
+		}		
 	}
 }

@@ -80,4 +80,5 @@ public class UserControllerTest {
 //		Assert.assertEquals(user.getUserId().intValue(), userId);
 //		public User getUserById(int userId); 
 	}
+	
 }
