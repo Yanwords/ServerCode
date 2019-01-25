@@ -4,6 +4,8 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.nju.beans.Permission;
 import com.nju.beans.User;
 import com.nju.service.IUserService;
 import com.nju.service.impl.UserServiceImpl;
@@ -34,5 +36,26 @@ public class IUserServiceTest {
 		String userName = "yan";
 		User user = userService.getUserByName(userName);
 		Assert.assertEquals(user.getUserName(), userName);
+	}
+	
+	@Test
+	public void testInsertUser() {
+		User user = new User();
+		Permission permission = new Permission();
+		user.setUserName("test");
+		user.setPassword("test");
+		user.setAge(23);
+		user.setGender("男");
+		user.setpId(1);
+		permission.setpId(1);
+		permission.setpName("USER");
+		user.setPermission(permission);
+		User temp = userService.getUserByName(user.getUserName());
+		if (temp == null) {
+			int result = userService.insert(user);
+			Assert.assertEquals(1, result);
+		}else {
+			Assert.assertEquals(user.getUserName(), temp.getUserName());
+		}
 	}
 }
