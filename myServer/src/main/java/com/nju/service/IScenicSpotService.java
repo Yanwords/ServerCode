@@ -22,7 +22,7 @@ public interface IScenicSpotService {
 
 	 public int updateByPrimaryKey(ScenicSpot record);
 	 
-	 public List<ScenicSpot> display();
+	 public List<ScenicSpot> display(float scenicScore);
 
 	 public int insertScenicEvaluation(ScenicEvaluation record);
 	 //public int deleteCustomer(Integer id);

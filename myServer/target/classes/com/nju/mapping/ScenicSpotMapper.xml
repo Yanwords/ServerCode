@@ -50,7 +50,8 @@
   <select id="display" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from scenic_spot
+    from scenic_spot 
+    where scenic_score > #{scenicSocre,jdbcType=FLOAT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from scenic_spot

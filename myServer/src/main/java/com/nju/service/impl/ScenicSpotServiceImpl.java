@@ -66,9 +66,9 @@ public class ScenicSpotServiceImpl implements IScenicSpotService {
 		}
 		return 0;
 	}
-	public List<ScenicSpot> display() {
+	public List<ScenicSpot> display(float scenicScore) {
 		// TODO Auto-generated method stub
-		return scenicDao.display();
+		return scenicDao.display(scenicScore);
 	}
 	public int insertScenicEvaluation(ScenicEvaluation record) {
 		// TODO Auto-generated method stub

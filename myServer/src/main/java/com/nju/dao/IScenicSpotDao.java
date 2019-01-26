@@ -19,7 +19,7 @@ public interface IScenicSpotDao {
     int updateByPrimaryKey(ScenicSpot record);
 
 	ScenicSpot selectByName(String scenicName);
-	List<ScenicSpot> display();
+	List<ScenicSpot> display(Float scenicScore);
 	
 	int insertScenicEvaluation(ScenicEvaluation record);
 //	int deleteCustomer(Integer id);

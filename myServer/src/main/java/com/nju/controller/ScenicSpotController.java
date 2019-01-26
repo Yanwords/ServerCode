@@ -167,7 +167,9 @@ public class ScenicSpotController {
     @RequestMapping("/display.do")
     @ResponseBody
     public String display(HttpServletRequest req, HttpServletResponse response, Model model) throws IOException{
-    	List<ScenicSpot> list = scenicService.display();
+    	String scenicScore = req.getParameter("scenicscore");
+    	float score = Float.parseFloat(scenicScore);
+    	List<ScenicSpot> list = scenicService.display(score);
     	model.addAttribute("list", list);
     	System.out.println("display length:"+list.size());
     	
