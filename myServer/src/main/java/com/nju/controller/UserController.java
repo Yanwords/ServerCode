@@ -68,6 +68,7 @@ public class UserController {
     			    //return "displaySucc";
         	    	//return user;
         			json.put("login", "success");
+//        			json.put("gender", user.getGender());
     	    	}
     	    	else
     	    	{
@@ -153,7 +154,7 @@ public class UserController {
     	String password = req.getParameter("password");;
     	String gender = req.getParameter("gender");
     	//gender = URLDecoder.decode(req.getParameter("gender"),"utf-8");
-    	gender = new String(gender.getBytes("ISO-8859-1"), "UTF-8");
+    	//gender = new String(gender.getBytes("ISO-8859-1"), "UTF-8");
     	int age = Integer.parseInt(req.getParameter("age")); 
     	int  pId = 1;
     	System.out.println("register/gender"+gender);
@@ -185,6 +186,7 @@ public class UserController {
     		int status = userService.insert(user);
     		if(status == 1){
     			json.put("register", "success");
+    			json.put("gender", gender);
     		}
     		else{
     			json.put("register", "register fail");
