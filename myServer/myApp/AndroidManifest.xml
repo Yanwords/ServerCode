@@ -66,6 +66,10 @@
             android:name="com.nju.myapp.SpotList"
             android:label="spotlist page">
         </activity>
+        <activity
+            android:name="com.nju.myapp.ScenicSpotList"
+            android:label="scenic spotlist page">
+        </activity>
     </application>
 
 </manifest>
