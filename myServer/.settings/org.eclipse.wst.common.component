@@ -2,7 +2,6 @@
     <wb-module deploy-name="myServer">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
         <property name="context-root" value="myServer"/>
         <property name="java-output-path" value="/myServer/target/classes"/>
