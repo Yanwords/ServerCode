@@ -117,14 +117,14 @@
         scenicScore = #{scenicScore,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where scenic_id = #{scenicId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.nju.beans.ScenicSpot" ><!-- （注意修改） -->
     update scenic_spot
     set   scenic_name = #{scenicName,jdbcType=VARCHAR},
       scenic_info = #{scenicInfo,jdbcType=VARCHAR},
       scenic_score = #{scenicScore,jdbcType=FLOAT}
-    where id = #{id,jdbcType=INTEGER}
+    where scenic_id = #{scenicId,jdbcType=INTEGER}
   </update>
   <!-- （注意修改） -->
   <!--  
