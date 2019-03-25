@@ -268,6 +268,48 @@ public class UserController {
 		return null;
 	}
 
+	@RequestMapping("/modifypassword.do")
+	@ResponseBody
+	public Object modifypassword(HttpServletRequest req, HttpServletResponse response) throws IOException {
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		String newpassword = req.getParameter("newpassword");
+		Map<String, String> json = new HashMap<String, String>();
+		byte[] jsonBytes;
+		if (username == null || newpassword == null) {
+			json.put("modifypassword", "modifyFail");
+//			return "updateFail";
+		} else {
+			User user = userService.getUserByName(username);
+			if (user == null) {
+//				return "updateFail";
+				json.put("modifypassword", "user does not exist");
+			} else {
+				if (!password.equals(user.getPassword())) {
+//					user.setPassword(password);
+					json.put("mdofifypassword", "password is not correct");
+				}
+				user.setPassword(newpassword);
+				int status = userService.updateByPrimaryKey(user);
+				if (status > 0) {
+					json.put("modifypassword", "success");
+				} else
+					json.put("modifypassword", "modify fail");
+			}
+		}
+		try {
+			jsonBytes = json.toString().getBytes("utf-8");
+			response.setContentLength(jsonBytes.length);
+			response.getOutputStream().write(jsonBytes);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@RequestMapping("/delete.do")
 	@ResponseBody
 	public String delete(int id, HttpServletRequest req) {
