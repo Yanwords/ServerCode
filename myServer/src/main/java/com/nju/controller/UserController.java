@@ -226,6 +226,48 @@ public class UserController {
 		}
 	}
 
+	@RequestMapping("/modifyname.do")
+	@ResponseBody
+	public Object modifyname(HttpServletRequest req, HttpServletResponse response) throws IOException {
+		String username = req.getParameter("username");
+		String password = req.getParameter("password");
+		String newname = req.getParameter("newname");
+		Map<String, String> json = new HashMap<String, String>();
+		byte[] jsonBytes;
+		if (username == null || newname == null) {
+			json.put("modifyname", "modifyFail");
+//			return "updateFail";
+		} else {
+			User user = userService.getUserByName(username);
+			if (user == null) {
+//				return "updateFail";
+				json.put("modifyname", "user does not exist");
+			} else {
+				if (!password.equals(user.getPassword())) {
+//					user.setPassword(password);
+					json.put("mdofifyname", "password is not correct");
+				}
+				user.setUserName(newname);
+				int status = userService.updateByPrimaryKey(user);
+				if (status > 0) {
+					json.put("modifyname", "success");
+				} else
+					json.put("modifyname", "modify fail");
+			}
+		}
+		try {
+			jsonBytes = json.toString().getBytes("utf-8");
+			response.setContentLength(jsonBytes.length);
+			response.getOutputStream().write(jsonBytes);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@RequestMapping("/delete.do")
 	@ResponseBody
 	public String delete(int id, HttpServletRequest req) {
