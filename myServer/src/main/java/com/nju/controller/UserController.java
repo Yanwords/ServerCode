@@ -310,6 +310,47 @@ public class UserController {
 		return null;
 	}
 
+	@RequestMapping("/reset.do")
+	@ResponseBody
+	public Object forgetpassword(HttpServletRequest req, HttpServletResponse response) throws IOException {
+		String username = req.getParameter("username");
+		String newpassword = req.getParameter("newpassword");
+		String gender = req.getParameter("gender");
+		// gender = URLDecoder.decode(req.getParameter("gender"),"utf-8");
+		// gender = new String(gender.getBytes("ISO-8859-1"), "UTF-8");
+		int age = Integer.parseInt(req.getParameter("age"));
+		Map<String, String> json = new HashMap<String, String>();
+		byte[] jsonBytes;
+		if (username == null || newpassword == null) {
+			json.put("reset", "resetFail");
+//			return "updateFail";
+		} else {
+			User user = userService.getUserByName(username);
+			if (user == null) {
+//				return "updateFail";
+				json.put("reset", "user does not exist");
+			} else {
+				user.setPassword(newpassword);
+				int status = userService.updateByPrimaryKey(user);
+				if (status > 0) {
+					json.put("reset", "success");
+				} else
+					json.put("reset", "reset fail");
+			}
+		}
+		try {
+			jsonBytes = json.toString().getBytes("utf-8");
+			response.setContentLength(jsonBytes.length);
+			response.getOutputStream().write(jsonBytes);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@RequestMapping("/delete.do")
 	@ResponseBody
 	public String delete(int id, HttpServletRequest req) {
