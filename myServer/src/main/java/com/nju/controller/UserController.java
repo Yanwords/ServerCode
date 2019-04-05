@@ -76,7 +76,7 @@ public class UserController {
 				}
 				// json.put("user", user.toString());
 			} else {
-				json.put("login", "wrong ps!");
+				json.put("login", "wrongps!");
 			}
 		}
 		try {
@@ -174,7 +174,7 @@ public class UserController {
 				permission.setpName("TOURIST");
 				break;
 			default:
-				json.put("register", "permission error");
+				json.put("register", "permissionerror");
 				return null;
 			}
 			user.setPermission(permission);
@@ -183,10 +183,10 @@ public class UserController {
 				json.put("register", "success");
 				json.put("gender", gender);
 			} else {
-				json.put("register", "register fail");
+				json.put("register", "registerfail");
 			}
 		} else {
-			json.put("register", "user already exist!");
+			json.put("register", "useralreadyexist!");
 		}
 
 		try {
@@ -243,18 +243,18 @@ public class UserController {
 			User user = userService.getUserByName(username);
 			if (user == null) {
 //				return "updateFail";
-				json.put("modifyname", "user does not exist");
+				json.put("modifyname", "userdoesnotexist");
 			} else {
 				if (!password.equals(user.getPassword())) {
 //					user.setPassword(password);
-					json.put("mdofifyname", "password is not correct");
+					json.put("mdofifyname", "passwordisnotcorrect");
 				}
 				user.setUserName(newname);
 				int status = userService.updateByPrimaryKey(user);
 				if (status > 0) {
 					json.put("modifyname", "success");
 				} else
-					json.put("modifyname", "modify fail");
+					json.put("modifyname", "modifyfail");
 			}
 		}
 		try {
@@ -285,18 +285,18 @@ public class UserController {
 			User user = userService.getUserByName(username);
 			if (user == null) {
 //				return "updateFail";
-				json.put("modifypassword", "user does not exist");
+				json.put("modifypassword", "userdoesnotexist");
 			} else {
 				if (!password.equals(user.getPassword())) {
 //					user.setPassword(password);
-					json.put("mdofifypassword", "password is not correct");
+					json.put("mdofifypassword", "passwordisnotcorrect");
 				}
 				user.setPassword(newpassword);
 				int status = userService.updateByPrimaryKey(user);
 				if (status > 0) {
 					json.put("modifypassword", "success");
 				} else
-					json.put("modifypassword", "modify fail");
+					json.put("modifypassword", "modifyfail");
 			}
 		}
 		try {
@@ -330,14 +330,14 @@ public class UserController {
 			User user = userService.getUserByName(username);
 			if (user == null) {
 //				return "updateFail";
-				json.put("reset", "user does not exist");
+				json.put("reset", "userdoesnotexist");
 			} else {
 				user.setPassword(newpassword);
 				int status = userService.updateByPrimaryKey(user);
 				if (status > 0) {
 					json.put("reset", "success");
 				} else
-					json.put("reset", "reset fail");
+					json.put("reset", "resetfail");
 			}
 		}
 		try {
@@ -391,10 +391,10 @@ public class UserController {
 				System.out.println("content of list:" + json.get("data"));
 
 			} else {
-				json.put("friend", "no friend");
+				json.put("friend", "nofriend");
 			}
 		} else {
-			json.put("friend", "user does not exist!");
+			json.put("friend", "failure");
 		}
 		try {
 			jsonBytes = json.toString().getBytes("utf-8");
@@ -417,12 +417,12 @@ public class UserController {
 		Map<String, String> json = new HashMap<String, String>();
 		byte[] jsonBytes;
 		if (myName == null || friendName == null) {
-			json.put("remove", "remove friend fail");
+			json.put("remove", "removefriendfail");
 		} else {
 			User me = userService.getUserByName(myName);
 			User friend = userService.getUserByName(friendName);
 			if (friend == null || me == null) {
-				json.put("remove", "user does not exist");
+				json.put("remove", "userdoesnotexist");
 			} else {
 				Friend f = new Friend();
 				f.setUserId(me.getUserId());
@@ -433,7 +433,7 @@ public class UserController {
 					json.put("remove", "success");
 				else
 //					return "updateFail";
-					json.put("remove", "remove friend fail");
+					json.put("remove", "removefriendfail");
 			}
 		}
 		try {
@@ -473,10 +473,10 @@ public class UserController {
 			if (status == 1) {
 				json.put("travel", "success");
 			} else {
-				json.put("travel", "insert fail");
+				json.put("travel", "insertfail");
 			}
 		} else {
-			json.put("travel", "user does not exist!");
+			json.put("travel", "userdoesnotexist!");
 		}
 
 		try {
@@ -516,10 +516,10 @@ public class UserController {
 			if (status == 1) {
 				json.put("experience", "success");
 			} else {
-				json.put("experience", "insert fail");
+				json.put("experience", "insertfail");
 			}
 		} else {
-			json.put("experience", "user does not exist!");
+			json.put("experience", "userdoesnotexist!");
 		}
 
 		try {
@@ -560,10 +560,10 @@ public class UserController {
 			if (status == 1) {
 				json.put("friend", "success");
 			} else {
-				json.put("friend", "add friend fail");
+				json.put("friend", "addfriendfail");
 			}
 		} else {
-			json.put("experience", "user does not exist!");
+			json.put("experience", "userdoesnotexist!");
 		}
 
 		try {

@@ -101,10 +101,10 @@ public class ScenicSpotController {
 			if (status == 1) {
 				json.put("insert", "success");
 			} else {
-				json.put("insert", "insert fail");
+				json.put("insert", "insertfail");
 			}
 		} else {
-			json.put("insert", "scenic already exist!");
+			json.put("insert", "scenicalreadyexist!");
 		}
 
 		try {
@@ -130,12 +130,12 @@ public class ScenicSpotController {
 		byte[] jsonBytes;
 		if (scenicName == null) {
 //         	return "updateFail";
-			json.put("update", "scenic update fail");
+			json.put("update", "scenicupdatefail");
 		} else {
 			ScenicSpot ss = scenicService.getScenicByName(scenicName);
 			if (ss == null) {
 //				return "updateFail";
-				json.put("update", "scenicspot does not exist");
+				json.put("update", "scenicspotdoesnotexist");
 			} else {
 				ss.setScenicName(scenicName);
 				ss.setScenicInfo(scenicInfo);
@@ -146,7 +146,7 @@ public class ScenicSpotController {
 					json.put("update", "success");
 				else
 //					return "updateFail";
-					json.put("update", "update fail");
+					json.put("update", "updatefail");
 			}
 		}
 		try {
@@ -171,11 +171,11 @@ public class ScenicSpotController {
 		Map<String, String> json = new HashMap<String, String>();
 		byte[] jsonBytes;
 		if (scenicName == null) {
-			json.put("set score", "scenic setscore fail");
+			json.put("set score", "scenicsetscorefail");
 		} else {
 			ScenicSpot ss = scenicService.getScenicByName(scenicName);
 			if (ss == null) {
-				json.put("setscore", "scenicspot does not exist");
+				json.put("setscore", "scenicspotdoesnotexist");
 			} else {
 				ss.setScenicScore(score);
 				int status = scenicService.updateByPrimaryKey(ss);
@@ -184,7 +184,7 @@ public class ScenicSpotController {
 					json.put("setscore", "success");
 				else
 //					return "updateFail";
-					json.put("setscore", "update fail");
+					json.put("setscore", "updatefail");
 			}
 		}
 		try {
@@ -279,10 +279,10 @@ public class ScenicSpotController {
 			if (status == 1) {
 				json.put("evaluation", "success");
 			} else {
-				json.put("evaluation", "insert fail");
+				json.put("evaluation", "insertfail");
 			}
 		} else {
-			json.put("evaluation", "user does not exist!");
+			json.put("evaluation", "userdoesnotexist!");
 		}
 
 		try {
