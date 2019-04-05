@@ -4,33 +4,48 @@ package com.nju.beans;
 
 public class Friend {
 	private Integer userId;
-    private User user;
-    private Integer friendId;
-    private User friend;
-//    private List<User> friends;
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
+	private Integer friendId;
+	private String friendName;
+	private String friendGender;
+	private Integer friendAge;
+
 	public Integer getUserId() {
 		return userId;
 	}
+
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
 	public Integer getFriendId() {
 		return friendId;
 	}
+
 	public void setFriendId(Integer friendId) {
 		this.friendId = friendId;
 	}
-	public User getFriend() {
-		return friend;
+
+	public String getFriendName() {
+		return friendName;
 	}
-	public void setFriend(User friend) {
-		this.friend = friend;
+
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
+	}
+
+	public String getFriendGender() {
+		return friendGender;
+	}
+
+	public void setFriendGender(String friendGender) {
+		this.friendGender = friendGender;
+	}
+
+	public Integer getFriendAge() {
+		return friendAge;
+	}
+
+	public void setFriendAge(Integer friendAge) {
+		this.friendAge = friendAge;
 	}
 }

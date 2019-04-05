@@ -24,6 +24,8 @@ import com.nju.beans.TravelRecord;
 import com.nju.beans.User;
 import com.nju.service.IUserService;
 
+import net.sf.json.JSONArray;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -371,6 +373,82 @@ public class UserController {
 //    	return "displayFail";
 	}
 
+	@RequestMapping("/friend.do")
+	@ResponseBody
+	public String friend(HttpServletRequest req, HttpServletResponse response, Model model) throws IOException {
+		String name = req.getParameter("name");
+		User user = userService.getUserByName(name);
+		Map<String, Object> json = new HashMap<String, Object>();
+		byte[] jsonBytes;
+		if (user != null) {
+			List<Friend> list = userService.friend(user.getUserId());
+			model.addAttribute("list", list);
+			System.out.println("frienddisplay length:" + list.size());
+			JSONArray array = JSONArray.fromObject(list);
+			if (list.size() > 0) {
+				json.put("friend", "success");
+				json.put("data", array);
+				System.out.println("content of list:" + json.get("data"));
+
+			} else {
+				json.put("friend", "no friend");
+			}
+		} else {
+			json.put("friend", "user does not exist!");
+		}
+		try {
+			jsonBytes = json.toString().getBytes("utf-8");
+			response.setContentLength(jsonBytes.length);
+			response.getOutputStream().write(jsonBytes);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	@RequestMapping("/remove.do")
+	@ResponseBody
+	public Object remove(HttpServletRequest req, HttpServletResponse response) throws IOException {
+		String myName = req.getParameter("myname");
+		String friendName = req.getParameter("friendname");
+		Map<String, String> json = new HashMap<String, String>();
+		byte[] jsonBytes;
+		if (myName == null || friendName == null) {
+			json.put("remove", "remove friend fail");
+		} else {
+			User me = userService.getUserByName(myName);
+			User friend = userService.getUserByName(friendName);
+			if (friend == null || me == null) {
+				json.put("remove", "user does not exist");
+			} else {
+				Friend f = new Friend();
+				f.setUserId(me.getUserId());
+				f.setFriendId(friend.getUserId());
+				int status = userService.removeFriend(f);
+				if (status > 0)
+//					return "updateSucc";
+					json.put("remove", "success");
+				else
+//					return "updateFail";
+					json.put("remove", "remove friend fail");
+			}
+		}
+		try {
+			jsonBytes = json.toString().getBytes("utf-8");
+			response.setContentLength(jsonBytes.length);
+			response.getOutputStream().write(jsonBytes);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@RequestMapping("/insertTravel.do")
 	@ResponseBody
 	public Object insertTravel(HttpServletRequest req, HttpServletResponse response) throws IOException {
@@ -473,10 +551,11 @@ public class UserController {
 		if (user != null && user.getUserName().equals(userName) && friend != null
 				&& friend.getUserName().equals(friendName)) {
 			isFriend = new Friend();
-			isFriend.setUser(user);
 			isFriend.setUserId(user.getUserId());
 			isFriend.setFriendId(friend.getUserId());
-			isFriend.setFriend(friend);
+			isFriend.setFriendName(friend.getUserName());
+			isFriend.setFriendGender(friend.getGender());
+			isFriend.setFriendAge(friend.getAge());
 			int status = userService.addFriend(isFriend);
 			if (status == 1) {
 				json.put("friend", "success");

@@ -8,30 +8,34 @@ import com.nju.beans.TravelRecord;
 import com.nju.beans.User;
 
 public interface IUserService {
-	 public User getUserById(int userId); 
+	public User getUserById(int userId);
 
-	 public User getUserByName(String userName);
-	 
-	 public int deleteByPrimaryKey(Integer id);
+	public User getUserByName(String userName);
 
-	 public int insert(User record);
+	public int deleteByPrimaryKey(Integer id);
 
-	 public int insertSelective(User record);
+	public int insert(User record);
+
+	public int insertSelective(User record);
 
 //	    User selectById(Integer id);
 
-	 public int updateByPrimaryKeySelective(User record);
+	public int updateByPrimaryKeySelective(User record);
 
-	 public int updateByPrimaryKey(User record);
-	 
-	 public List<User> display();
-     
-	 public int insertTravelRecord(TravelRecord record);
-	 
-	 public int insertShareExperience(ShareExperience record);
-	 
-	 public int addFriend(Friend record);
-	 //public int deleteCustomer(Integer id);
-	 
+	public int updateByPrimaryKey(User record);
+
+	public List<User> display();
+
+	public List<Friend> friend(Integer id);
+
+	public int removeFriend(Friend friend);
+
+	public int insertTravelRecord(TravelRecord record);
+
+	public int insertShareExperience(ShareExperience record);
+
+	public int addFriend(Friend record);
+	// public int deleteCustomer(Integer id);
+
 //		User selectByName(String userName);
 }
